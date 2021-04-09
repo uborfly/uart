@@ -1,5 +1,6 @@
 QT       += core gui
 QT += serialport
+QT += serialbus
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG += c++11
@@ -10,10 +11,14 @@ CONFIG += c++11
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    modbus.cpp \
+    processthread.cpp
 
 HEADERS += \
-    mainwindow.h
+    mainwindow.h \
+    modbus.h \
+    processthread.h
 
 FORMS += \
     mainwindow.ui

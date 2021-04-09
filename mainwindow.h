@@ -2,8 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include "serialport.h"
+#include <QDebug>
 #include <QSerialPort>
+#include <QSerialPortInfo>
+#include <QString>
+#include "modbus.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,11 +24,12 @@ private slots:
     void on_btnOpenUART_clicked();
     void on_btnScanUART_clicked();
     void on_btnCloseUART_clicked();
-    void read_data();
+    void data_read_ready(QModbusDataUnit dataUnit);
     void on_btnClear_clicked();
 
 private:
     Ui::MainWindow *ui;
-    QSerialPort *serial;
+    QSerialPort *serial=nullptr;
+    My_Modbus *modbus = nullptr;
 };
 #endif // MAINWINDOW_H

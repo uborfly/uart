@@ -1,7 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-using namespace std;
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -25,15 +24,13 @@ void MainWindow::on_btnOpenUART_clicked()
         qDebug() << serialPortInfo.portName() << "busy";
         return;
     }
-    serial = new QSerialPort;
-    serial->setPort(serialPortInfo);
-    serial->setBaudRate(QSerialPort::Baud115200);
-    serial->open(QIODevice::ReadWrite);
-    serial->setDataBits(QSerialPort::Data8);
-    serial->setParity(QSerialPort::NoParity);
-    serial->setStopBits(QSerialPort::OneStop);
-    serial->setFlowControl(QSerialPort::NoFlowControl);
-    QObject::connect(serial,&QSerialPort::readyRead,this,&MainWindow::read_data);
+    struct My_Modbus::Settings settings;
+    settings.portName = serialPortInfo.portName();
+    modbus = new My_Modbus;
+    modbus->modbusConnect(settings);
+    connect(modbus,SIGNAL(modbusReadReady(QModbusDataUnit)),this,SLOT(data_read_ready(QModbusDataUnit)));
+
+    modbus->modbusRead(1,QModbusDataUnit::HoldingRegisters,0,10);
 }
 
 void MainWindow::on_btnScanUART_clicked()
@@ -48,7 +45,8 @@ void MainWindow::on_btnScanUART_clicked()
 
 void MainWindow::on_btnCloseUART_clicked()
 {
-    serial->close();
+    //    serial->close();
+    modbus->modbusDisconnect();
 }
 
 void MainWindow::on_btnClear_clicked()
@@ -56,18 +54,23 @@ void MainWindow::on_btnClear_clicked()
     ui->textEditUART->clear();
 }
 
-void MainWindow::read_data()
+void MainWindow::data_read_ready(QModbusDataUnit dataUnit)
 {
-    QByteArray buff = serial->readAll();
-    qDebug() << "get data" << buff;
-    if(!buff.isEmpty())
+    qDebug() << "get data" << dataUnit.valueCount();
+    if(dataUnit.valueCount() != 0)
     {
         QString str = ui->textEditUART->toPlainText();
-        int n;
-        str+=tr(buff);
-        n=str.length();
-        ui->textEditUART->clear();
-        ui->textEditUART->append(str);
+        QVector <quint16> buff = dataUnit.values();
+        for(int i=0;i < dataUnit.valueCount();i++)
+        {
+            qDebug() << buff.data()[i];
+            int n;
+            str+=QString::number(buff.data()[i],16)+" ";
+            n=str.length();
+            ui->textEditUART->clear();
+            ui->textEditUART->append(str);
+        }
+        ui->textEditUART->append("");
+        buff.clear();
     }
-    buff.clear();
 }
