@@ -17,7 +17,7 @@ public:
     struct Settings {
         QString portName;
         int parity = QSerialPort::NoParity;
-        int baud = QSerialPort::Baud115200;
+        int baud = QSerialPort::Baud9600;
         int dataBits = QSerialPort::Data8;
         int stopBits = QSerialPort::OneStop;
         int responseTime = 1000;

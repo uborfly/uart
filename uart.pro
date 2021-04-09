@@ -13,12 +13,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     modbus.cpp \
-    processthread.cpp
+    processthread.cpp \
+    sensor.cpp
 
 HEADERS += \
     mainwindow.h \
     modbus.h \
-    processthread.h
+    processthread.h \
+    sensor.h
 
 FORMS += \
     mainwindow.ui

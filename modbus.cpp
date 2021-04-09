@@ -20,6 +20,7 @@ My_Modbus::My_Modbus()
 
 My_Modbus::~My_Modbus()
 {
+    qDebug() << "~My_Modbus";
     delete modbusDevice;
 }
 
@@ -138,37 +139,36 @@ void My_Modbus::modbusReadData()
 //服务器地址、寄存器类型、起始地址、变量数量、写入数据
 void My_Modbus::modbusWrite(int serverAddress, QModbusDataUnit::RegisterType table, int startAddress, int numOfEntries, QVector<quint16> data)
 {
-    //        if(!modbusDevice || modbusDevice->state() != QModbusDevice::ConnectedState)
-    //        {
-    //                qDebug("Modbus Device is not connected!");
-    //                return;
-    //        }
+    if(!modbusDevice || modbusDevice->state() != QModbusDevice::ConnectedState)
+    {
+        qDebug("Modbus Device is not connected!");
+        return;
+    }
 
-    //        //QModbusDataUnit，是用来处理通过串口一次传输的数据
-    //        QModbusDataUnit dataunit = QModbusDataUnit(table, startAddress, numOfEntries);
+    //QModbusDataUnit，是用来处理通过串口一次传输的数据
+    QModbusDataUnit dataunit = QModbusDataUnit(table, startAddress, numOfEntries);
 
-    //        for(uint i = 0; i < dataunit.valueCount(); i++)
-    //        {
-    //                dataunit.setValue( i,  data.at(i));
-    //        }
+    for(uint i = 0; i < dataunit.valueCount(); i++)
+    {
+        dataunit.setValue( i,  data.at(i));
+    }
 
-    //        if(auto *reply = modbusDevice->sendWriteRequest(dataunit,  serverAddress))
-    //        {
-    //                      connect(reply, &QModbusReply::finished, this, [this, reply](){
-    //                                if(reply->error() == QModbusDevice::ProtocolError){
-    //                                          modbusMessage(tr("Write response error:%1 (modbus exception:0x%2)")
-    //                                                                           .arg(reply->errorString()).arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
-    //                                }else{
-    //                                          modbusMessage(tr("Write response:%1 (code:0x%2)")
-    //                                                                           .arg(reply->errorString()).arg(reply->rawResult().exceptionCode(), -1, 16), 5000);
-    //                                }
+    if(auto *reply = modbusDevice->sendWriteRequest(dataunit,  serverAddress))
+    {
+        connect(reply, &QModbusReply::finished, this, [this, reply](){
+            if(reply->error() == QModbusDevice::ProtocolError){
+                modbusMessage(tr("Write response error:%1 (modbus exception:0x%2)")
+                              .arg(reply->errorString()).arg(reply->rawResult().exceptionCode(), -1, 16));
+            }else{
+                modbusMessage(tr("Write response:%1 (code:0x%2)")
+                              .arg(reply->errorString()).arg(reply->rawResult().exceptionCode(), -1, 16));
+            }
 
-    //                                reply->deleteLater();
-    //                                });
-    //         }
-    //         else{
-    ////                        statusBar()->showMessage(tr("Write error:") + modbusDevice->errorString(), 5000);
-    //            qDebug() << "Write error";
-    //               }
+            reply->deleteLater();
+        });
+    }
+    else{
+        modbusMessage(tr("Write error:") + modbusDevice->errorString());
+    }
 }
 

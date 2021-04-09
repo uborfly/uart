@@ -7,6 +7,7 @@
 #include <QSerialPortInfo>
 #include <QString>
 #include "modbus.h"
+#include "processthread.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -31,5 +32,6 @@ private:
     Ui::MainWindow *ui;
     QSerialPort *serial=nullptr;
     My_Modbus *modbus = nullptr;
+    ProcessThread *modbusThread = nullptr;
 };
 #endif // MAINWINDOW_H
