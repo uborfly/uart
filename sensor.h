@@ -2,18 +2,17 @@
 #define SENSOR_H
 #include "modbus.h"
 #include <QObject>
+#include <QTextEdit>
 
 class Sensor : public My_Modbus
 {
 public:
+    typedef union hex2float
+    {
+        float data;
+        unsigned char hex[4];
+    }hex2float;
 
-    Sensor(int serverAddress);
-    ~Sensor();
-    void read(QModbusDataUnit::RegisterType table, int startAddress, int numOfEntries);
-    void write(QModbusDataUnit::RegisterType table, int startAddress, int numOfEntries, QVector<quint16> data);
-private:
-    int m_iServerAddress;
-public:
     typedef union Sensor_Reg
     {
         struct
@@ -57,6 +56,17 @@ public:
         unsigned short Buffer[62];
         unsigned char Num[62 * 2];
     } Sensor_TypeDef;
+public:
+    Sensor();
+    ~Sensor();
+    void readParse(QVector <quint16> data);
+    void display(QTextEdit* edit);
+    void write(QModbusDataUnit::RegisterType table, int startAddress, int numOfEntries, QVector<quint16> data);
+private:
+    int m_iServerAddress;
+    Sensor_TypeDef gSensorData;
+//public:
+//    Sensor_TypeDef gSensorData;
 };
 
 #endif // SENSOR_H

@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "sensor.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -61,19 +62,11 @@ void MainWindow::on_btnClear_clicked()
 void MainWindow::data_read_ready(QModbusDataUnit dataUnit)
 {
     qDebug() << "get data" << dataUnit.valueCount();
+    Sensor *sensor = new Sensor;
     if(dataUnit.valueCount() != 0)
     {
-        QString str = ui->textEditUART->toPlainText();
         QVector <quint16> buff = dataUnit.values();
-        // 使用迭代器 iterator 访问值
-        QVector <quint16>::iterator v = buff.begin();
-        while( v != buff.end()) {
-            str+=QString::number(*v,16).toUpper()+" ";
-            ui->textEditUART->clear();
-            ui->textEditUART->append(str);
-            v++;
-        }
-        ui->textEditUART->append("");
-        buff.clear();
+        sensor->readParse(buff);
+        sensor->display(ui->textEditUART);
     }
 }

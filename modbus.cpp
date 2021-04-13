@@ -5,7 +5,7 @@
 My_Modbus::My_Modbus()
 {
     modbusDevice = new QModbusRtuSerialMaster(nullptr);
-    connect(modbusDevice, SIGNAL(errorOccurred()), this, SLOT(modbusMessage()));
+//    connect(modbusDevice, SIGNAL(errorOccurred()), this, SLOT(modbusMessage()));
 
     if(modbusDevice)
     {

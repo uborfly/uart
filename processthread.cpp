@@ -10,7 +10,7 @@ void ProcessThread::run()
     while (m_bCloseStatus)
     {
         qDebug()<<"modbusThread run!";
-        modbusThread->modbusRead(4,QModbusDataUnit::HoldingRegisters,1,10);
+        modbusThread->modbusRead(3,QModbusDataUnit::HoldingRegisters,0,0x3c);
         sleep(2);
     }
 }
