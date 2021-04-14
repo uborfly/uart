@@ -63,7 +63,7 @@ public:
     void display(QTextEdit* edit);
     void write(QModbusDataUnit::RegisterType table, int startAddress, int numOfEntries, QVector<quint16> data);
 private:
-    int m_iServerAddress;
+//    int m_iServerAddress;
     Sensor_TypeDef gSensorData;
 //public:
 //    Sensor_TypeDef gSensorData;
