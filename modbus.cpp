@@ -97,7 +97,7 @@ void My_Modbus::modbusRead(int serverAddress, QModbusDataUnit::RegisterType tabl
 
         if(!reply->isFinished())
         {
-            qDebug("reply finished!");
+//            qDebug("reply finished!");
             connect(reply, &QModbusReply::finished, this, &My_Modbus::modbusReadData);
         }
     }

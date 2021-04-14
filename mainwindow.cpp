@@ -14,6 +14,9 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+    delete serial;
+    delete modbus;
+    delete modbusThread;
 }
 
 

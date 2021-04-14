@@ -1,5 +1,6 @@
 #include "sensor.h"
 #include <QtDebug>
+#include <QtXlsx/QtXlsx>
 
 Sensor::Sensor()
 {
@@ -40,6 +41,13 @@ void Sensor::display(QTextEdit* edit)
     edit->clear();
     edit->append(str);
     edit->append("");
+}
+
+void Sensor::saveToXlsx()
+{
+    QXlsx::Document xlsx;
+    xlsx.write("A1", "Hello Qt!");
+    xlsx.saveAs("Test.xlsx");
 }
 
 void Sensor::write(QModbusDataUnit::RegisterType table, int startAddress, int numOfEntries, QVector<quint16> data)
