@@ -41,13 +41,45 @@ void Sensor::display(QTextEdit* edit)
     edit->clear();
     edit->append(str);
     edit->append("");
+    saveToXlsx();
 }
 
 void Sensor::saveToXlsx()
 {
-    QXlsx::Document xlsx;
-    xlsx.write("A1", "Hello Qt!");
-    xlsx.saveAs("Test.xlsx");
+    QDateTime time = QDateTime::currentDateTime();   //获取当前时间
+            QString timeT = time.toString();
+
+    QXlsx::Document xlsx("test.xlsx");
+    int m_iWriteRow = 2;
+    int m_iWriteCol = 1;
+    while(true)
+    {
+//        qDebug() << m_iWriteRow << m_iWriteCol;
+        if(m_iWriteRow == 0xffff)break;
+        if(!xlsx.read(m_iWriteRow,m_iWriteCol).isValid())
+        {
+            xlsx.write(m_iWriteRow, m_iWriteCol++, timeT);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.fDensity_LDO);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.fTemprature_LDO);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.fDelta_Phase);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.fRed_Phase);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.red_voltage);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.red_amp);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.fGreen_Phase);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.green_voltage);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.green_amp);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.LDO_soft_version);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.usLDO_sign);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.usLDO_State);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.LDO_unit);
+            xlsx.write(m_iWriteRow, m_iWriteCol++, gSensorData.Part.LDO_damping);
+            xlsx.write(m_iWriteRow, m_iWriteCol, gSensorData.Part.fAtmosphere);
+            m_iWriteCol=1;
+            xlsx.save();
+            break;
+        }
+        m_iWriteRow++;
+    }
 }
 
 void Sensor::write(QModbusDataUnit::RegisterType table, int startAddress, int numOfEntries, QVector<quint16> data)

@@ -38,7 +38,6 @@ void MainWindow::on_btnOpenUART_clicked()//打开串口，启动modbus
     modbusThread = new ProcessThread;
     modbusThread->setModbusThread(modbus);
     modbusThread->start();
-    //        modbus->modbusRead(4,QModbusDataUnit::HoldingRegisters,1,10);
 }
 
 void MainWindow::on_btnScanUART_clicked()//查询串口号，显示在下拉菜单

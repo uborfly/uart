@@ -67,6 +67,7 @@ private:
     Sensor_TypeDef gSensorData;
     void saveToXlsx();
 
+
 //public:
 //    Sensor_TypeDef gSensorData;
 };
