@@ -28,6 +28,7 @@ void Sensor::readParse(QVector <quint16> data)
 
 void Sensor::display(QTextEdit* edit)
 {
+    edit->clear();
     QString str = edit->toPlainText();
     str += QString("溶解氧值:%1").arg(gSensorData.Part.fDensity_LDO)+"\t"+QString("温度:%1").arg(gSensorData.Part.fTemprature_LDO)+"\n";
     str += QString("相位差:%1").arg(gSensorData.Part.fDelta_Phase)+"\n";

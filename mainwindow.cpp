@@ -9,6 +9,8 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->textEditUART->setFontPointSize(16);
     ui->textEditUART->setFontFamily(tr("Times New Roman"));
+    ui->textEditUART->setReadOnly(true);
+    ui->textEditUART->setTextInteractionFlags(Qt::NoTextInteraction);//设置不可选中
 }
 
 MainWindow::~MainWindow()
@@ -18,7 +20,6 @@ MainWindow::~MainWindow()
     delete modbus;
     delete modbusThread;
 }
-
 
 void MainWindow::on_btnOpenUART_clicked()//打开串口，启动modbus
 {

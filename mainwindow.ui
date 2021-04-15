@@ -19,8 +19,8 @@
      <rect>
       <x>210</x>
       <y>30</y>
-      <width>75</width>
-      <height>23</height>
+      <width>91</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -30,10 +30,10 @@
    <widget class="QComboBox" name="cbUartList">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>120</x>
       <y>30</y>
-      <width>69</width>
-      <height>22</height>
+      <width>81</width>
+      <height>51</height>
      </rect>
     </property>
    </widget>
@@ -42,8 +42,8 @@
      <rect>
       <x>20</x>
       <y>30</y>
-      <width>75</width>
-      <height>23</height>
+      <width>91</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -55,8 +55,8 @@
      <rect>
       <x>310</x>
       <y>30</y>
-      <width>75</width>
-      <height>23</height>
+      <width>91</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
@@ -78,8 +78,8 @@
      <rect>
       <x>410</x>
       <y>30</y>
-      <width>75</width>
-      <height>23</height>
+      <width>91</width>
+      <height>51</height>
      </rect>
     </property>
     <property name="text">
